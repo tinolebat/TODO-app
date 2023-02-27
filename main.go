@@ -36,6 +36,9 @@ func main() {
 
 	tmpl = template.Must(template.ParseFiles("templates/index.html"))
 
+	fs := http.FileServer(http.Dir("./static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
 	mux.HandleFunc("/todo", todo)
 
 	err := http.ListenAndServe("localhost:8080", mux)
